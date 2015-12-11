@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang = 'en'>
+	<head>
+		<title>Particle System</title>
+	<style>
+		canvas {
+			border: px solid black;
+		}
+	</style>
+
+	<script>
+		var canvas;
+		var context;
+		var particles;
+		var timer;
+		var timer1;
+		var particles2;
+		var timer2;
+		var timer3;
+		var timer4;
+		var timer5;
+		var timer6;
+		var cloud;
+		
+	function degreesToRadians(degrees){
+		return (degrees*Math.PI)/180;
+		}
+		
+	function Particle(){
+		this.x =canvas.width/4;
+		this.y =canvas.height/4;
+		this.vx = Math.random()*10-5; //value between -5 and 5
+		this.vy = Math.random()*10-5;
+		var colors = ['Coral','Salmon','red', 'Tomato', 'GoldenRod', 'DarkOrange', 'Crimson', 'Moccasin'];
+		this.color = colors[Math.floor(Math.random()*colors.length)]; //grabs random index
+		this.radius= 30;
+		
+	}
+	
+	function Particle2(){
+		this.x = canvas.width/2+100;
+		this.y = canvas.height/2-100;
+		this.vx = Math.random()*10-5;
+		this.vy = Math.random()*10-5;
+		var colors = ['Coral','Salmon','red', 'Tomato', 'GoldenRod', 'DarkOrange', 'Crimson', 'Moccasin'];
+		this.color =colors[Math.floor(Math.random()*colors.length)];
+		
+		
+		}
+	
+		function makeParticles2(){
+		particles2 = [];
+		for(var i=0; i<60; i++){
+			particles2.push(new Particle2());
+		}
+	
+	}
+	
+	var gradient;
+	var rainDrops;
+	
+	function Rain(){
+		this.x = Math.floor(Math.random()*canvas.width);
+		this.y = -10;
+		this.vy = Math.random()*10+5;
+	
+	}
+	
+	function makeRainDrops(){
+		rainDrops = [];
+		for(var i=0; i<50; i++){
+			rainDrops.push(new Rain());
+		}
+	
+	}
+	
+	function rightTriangle(){
+		context.beginPath();
+		context.moveTo(400,400);
+		context.lineTo(500,500);
+		context.lineTo(400,500);
+		context.lineTo(400,400);
+		
+		context.strokeStyle = '#ffffff';
+		context.stroke();
+		context.fillStyle = 'black';
+		context.fill();
+	}
+	
+	function drawRain(){
+		context.globalCompositeOperation = 'source-over';
+		
+		for(var i=0; i<rainDrops.length; i++){
+			var rd = rainDrops[i];
+			
+			context.beginPath();
+			context.moveTo(rd.x+25,rd.y+10);
+			context.lineTo(rd.x+30,rd.y+20);
+			context.lineTo(rd.x+20,rd.y+20);
+			context.lineTo(rd.x+25,rd.y+10);
+		
+			context.fillStyle = 'rgba(65,183,155,0.8)';
+			context.fill();
+			
+			context.beginPath(); 
+			context.arc(rd.x+25,rd.y+20,5,0, Math.PI, false);
+			context.closePath();
+			context.fillStyle = 'rgba(65,183,155,0.8)';
+			context.fill();
+			
+			rd.y += rd.vy;
+		}
+		
+	}
+	
+	var img;
+	var c = 450;
+	var d = 250;
+	var e = 50;
+	var f = 600;
+	
+function drawCloud(){
+	context.globalCompositeOperation = 'lighten';
+	
+	for(var i=0; i<2; i++){
+		
+		img = new Image();
+		img2 = new Image();
+		img3 = new Image();
+		img4 = new Image();
+		
+			 img.onload = function(){
+			 context.drawImage(img, c,-50);
+			 };
+			 
+			 img2.onload = function(){
+				context.drawImage(img2, d, -50);
+			 }
+			 
+			 img3.onload = function(){
+				context.drawImage(img3, e, -50);
+			 }
+			 
+			 img4.onload = function(){
+				context.drawImage(img4, f, -50);
+			 }
+			 
+			 img4.src = 'https://40.media.tumblr.com/7c79c11ad68ca83316e7f65e29ba806b/tumblr_ny6jr01M7j1uy33o1o1_250.png';
+			 img3.src = 'https://36.media.tumblr.com/c5d2ef3658de54b23da42b56b4b0c77e/tumblr_ny6jraGvFt1uy33o1o1_250.png';
+			 img2.src = 'https://40.media.tumblr.com/7c79c11ad68ca83316e7f65e29ba806b/tumblr_ny6jr01M7j1uy33o1o1_250.png';
+			 img.src = 'https://40.media.tumblr.com/2a92510523d14318cdcb4b4a535faef4/tumblr_ny6jqqJHtq1uy33o1o1_250.png';
+	
+			c += 4;
+			d +=4;
+			e += 4;
+			f += 4;
+			if(c> canvas.width)
+				c = c-canvas.width-200;
+			if(d>canvas.width)
+				d = d-canvas.width-200;
+			if(e>canvas.width)
+				e= e-canvas.width-200;
+			if(f>canvas.width)	
+				f = f-canvas.width-200;
+		}
+	}
+	
+	
+	var x = 400,
+		y = 450,
+		dx = 2,
+		dy = 2,
+		width = 700,
+		height = 800,
+		rect = 0,
+		rect2 = 0;
+	
+	function PaperBoat(x,y){
+		//rectangles behind the boat
+		context.globalCompositeOperation = 'source-over';
+		context.fillStyle = 'rgba(65,183,155,1)';
+		context.fillRect(0, rect, 700, 150);
+		Greeting();
+		context.fillStyle = 'rgba(0,0,0,0.8)';
+		context.fillRect(0, rect2,700,150);
+		
+		context.globalCompositeOperation = 'source-over';
+		//boat
+		context.beginPath();
+		context.moveTo(x+50, y+50);
+		context.lineTo(x+65,y+55);
+		context.lineTo(x+70,y+50);
+		context.lineTo(x+75,y+55);
+		context.lineTo(x+90,y+50);
+		context.lineTo(x+80,y+66);
+		context.lineTo(x+60,y+66);
+		context.lineTo(x+50,y+50);
+		context.fillStyle = '#E94F37';
+		context.fill();
+		
+		rect2 = y-85;
+		rect = y+65;
+		
+	}
+	
+function drawBoat(){
+	PaperBoat(x,y);
+	
+	if (x + dx > canvas.width-90 || x + dx < -50)
+		dx = -dx;
+	if (y + dy > canvas.height-65 || y + dy < canvas.height-canvas.height/4)
+		dy = -dy;
+	
+	x += dx;
+	y += dy;
+  
+  }
+	function makeParticles(){
+		particles = [];
+		for(var i=0; i<60; i++){
+			particles.push(new Particle());
+		}
+	
+	}
+	function moveParticles(){
+		drawCloud();
+		meh();
+		context.globalCompositeOperation = 'source-over';//keeps source content around, keeps trace of pass as circles move
+		context.fillStyle = 'rgba(0, 0, 0, 0.5)';//change alpha to change how long the trail shows
+		context.fillRect(0,0,canvas.width, canvas.height-canvas.height/4);
+		context.globalCompositeOperation = 'screen'; //xor, lighten, screen change type to make the effect different for the trails
+			
+			for(var i=0; i<particles.length; i++){
+					
+					var p = particles[i];
+					var p2 = particles2[i];
+					
+					if(i%2===0){
+						context.beginPath();
+						context.moveTo(p2.x+5, p2.y+0);
+						context.lineTo(p2.x+0,p2.y+10);
+						context.lineTo(p2.x+10,p2.y+10);
+						context.lineTo(p2.x+5,p2.y+0);
+						context.fillStyle = p2.color;
+						context.fill();
+					}
+					else{
+						context.beginPath();
+						context.moveTo(p2.x+5,p2.y+5);
+						context.lineTo(p2.x+10,p2.y+10);
+						context.lineTo(p2.x+5,p2.y+10);
+						context.lineTo(p2.x+5,p2.y+5);
+						context.strokeStyle = '#ffffff';
+						context.stroke();
+					}
+					
+					context.beginPath();
+					context.arc(p.x, p.y, p.radius, 0, degreesToRadians(360), true);
+		
+					p.radius = p.radius-1;
+					context.fillStyle = p.color;
+					context.strokeStyle = p.color;
+					
+					if(i%2===0)
+						context.fill();
+					else
+						context.stroke();
+					
+					p.x += p.vx;
+					p.y += p.vy;
+					
+					if(p.x < -50)
+						p.x = canvas.with+50;
+					if(p.x > canvas.width + 50)
+						p.x = -50;
+					if(p.y < -50)
+						p.y = canvas.height + 50;
+					if(p.y > canvas.width + 50)
+						p.y = -50;
+
+					p2.x += p2.vx;
+					p2.y += p2.vy;
+						
+					if(p2.x > canvas.width)
+						p2.x = canvas.width-canvas.width/4;
+					if(p2.y > canvas.height)
+						p2.y = canvas.height - canvas.height/2;
+			}	
+	}
+function Greeting(){
+		context.font = '15pt Courier New';
+		context.fillStyle = 'white';
+		context.fillText('We will float on and on',380,550);
+	}
+	
+	var t = 0;
+	var tt = 0;
+	
+function meh(){
+		context.font = '12pt Courier New';
+		context.fillStyle = 'white';
+		context.fillText('Fireworks should not work in the rain', t,tt);
+		tt = tt+7;
+	if(tt>canvas.height)
+		tt=0;
+	}
+	
+window.onload = function(){
+	canvas = document.getElementById('canvas');
+	context = canvas.getContext('2d');
+	
+	
+	drawBoat();
+	makeParticles();
+	makeParticles2();
+	makeRainDrops();
+	
+	timer = setInterval(moveParticles, 100);
+	timer1 = setInterval(makeParticles, 4500);
+	timer2 = setInterval(makeParticles2, 4500);
+	timer3 = setInterval(drawBoat, 100);
+	timer4 = setInterval(drawRain,60);
+	timer5 = setInterval(makeRainDrops, 4500);
+	timer6 = setInterval(drawCloud,200);
+}
+	</script>
+	</head>
+	<body>
+		<canvas id='canvas' width=700 height=600></canvas>
+	</body>
+</html>
+
